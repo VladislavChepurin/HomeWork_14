@@ -1,13 +1,9 @@
 ﻿using HomeWork_14.Models;
 
-namespace HomeWork_14;
-class Program
-{
-    static void Main(string[] args)
-    {
-        //  создаём пустой список с типом данных Contact
-        // Исправим инициализацию списка
-        var phoneBook = new List<Contact>
+
+//  создаём пустой список с типом данных Contact
+// Исправим инициализацию списка
+var phoneBook = new List<Contact>
         {
             new Contact("Игорь", "Николаев", 79990000001, "igor@example.com"),
             new Contact("Сергей", "Довлатов", 79990000010, "serge@example.com"),
@@ -16,14 +12,24 @@ class Program
             new Contact("Сергей", "Брин", 799900000013, "serg@example.com"),
             new Contact("Иннокентий", "Смоктуновский", 799900000013, "innokentii@example.com")
         };
+while (true)
+{
+    Char input = Console.ReadKey().KeyChar;
+    Console.WriteLine();
+    if (int.TryParse(input.ToString(), out int result) && result >= 1 && result <= 3)
+    {
+        var pageContent = phoneBook.
+            OrderBy(p => p.Name).
+            ThenBy(p => p.LastName).
+            Skip((result - 1) * 2).
+            Take(2);
 
-        int i = default;
-        var sortedPhoneBook = phoneBook.OrderBy(p => p.Name).ThenBy(p => p.LastName);
-        foreach (var item in sortedPhoneBook)
-        {
-            i++;
-            Console.WriteLine($"№ {i}: {item.Name} {item.LastName}, тел:{item.PhoneNumber}, e-mail:{item.Email}");
-            Console.WriteLine(Environment.NewLine);
-        }
+        foreach (var item in pageContent)
+            Console.WriteLine($"Контакт: {item.Name} {item.LastName}, тел:{item.PhoneNumber}, e-mail:{item.Email}");
+        Console.WriteLine();
+    }
+    else
+    {
+        Console.WriteLine("Записи не существует");
     }
 }
